@@ -75,6 +75,9 @@
               開催前
             <% end %>
           </div>
+          <% if @event.only_woman %>
+            <div class="badge bg-danger me-2">女性限定</div>
+          <% end %>
           <h3 class="text-center">
             開催日時
           </h3>
@@ -93,12 +96,16 @@
                               data: { confirm: 'キャンセルします' }
                   %>
                 <% else %>
-                  <%= link_to 'このもくもく会に参加する',
-                              event_attendance_url(@event),
-                              class: 'btn btn-primary',
-                              method: :post,
-                              data: { confirm: '申し込みます' }
-                  %>
+                  <% if @event.only_woman && (current_user.man? || current_user.other?) %>
+                    <p>このもくもく会は女性限定です。</p>
+                  <% else %>
+                    <%= link_to 'このもくもく会に参加する',
+                                event_attendance_url(@event),
+                                class: 'btn btn-primary',
+                                method: :post,
+                                data: { confirm: '申し込みます' }
+                    %>
+                  <% end %>
                 <% end %>
               <% end %>
             <% end %>

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  enum gender: { other: 0, man: 1, woman: 2 }
   authenticates_with_sorcery!
 
   has_many :events, dependent: :destroy
